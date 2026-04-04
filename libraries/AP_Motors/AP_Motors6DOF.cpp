@@ -133,12 +133,12 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         //                 Motor #              Roll Factor     Pitch Factor    Yaw Factor      Throttle Factor     Forward Factor      Lateral Factor  Testing Order
     case SUB_FRAME_BLUEROV1:
         _frame_class_string = "BLUEROV1";
-        add_motor_raw_6dof(AP_MOTORS_MOT_1,     0,              0,              -1.0f,          0,                  1.0f,               0,              1);
-        add_motor_raw_6dof(AP_MOTORS_MOT_2,     0,              0,              1.0f,           0,                  1.0f,               0,              2);
-        add_motor_raw_6dof(AP_MOTORS_MOT_3,     -0.5f,          0.5f,           0,              0.45f,              0,                  0,              3);
-        add_motor_raw_6dof(AP_MOTORS_MOT_4,     0.5f,           0.5f,           0,              0.45f,              0,                  0,              4);
-        add_motor_raw_6dof(AP_MOTORS_MOT_5,     0,              -1.0f,          0,              1.0f,               0,                  0,              5);
-        add_motor_raw_6dof(AP_MOTORS_MOT_6,     -0.25f,         0,              0,              0,                  0,                  1.0f,           6);
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,   1.0f,   -1.0f,   1.0f,   1.0f,   1.0f,   0.0f,   1);// 1 = unten links
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,  -1.0f,   -1.0f,  -1.0f,   0.0f,   1.0f,   0.0f,   2);// 2 = unten rechts
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,   1.0f,    1.0f,  -1.0f,   0.0f,   1.0f,   0.0f,   3);// 3 = oben rechts
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,  -1.0f,    1.0f,   1.0f,   0.0f,   1.0f,   0.0f,   4);// 4 = oben links
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,   0.0f,    0.0f,   0.0f,   0.0f,   0.0f,  -1.0f,   5);// 5 = seitlich(nach rechts)
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,   0.0f,    0.0f,   0.0f,  -1.0f,   0.0f,   0.0f,   6);// 6 = Runter
         break;
 
     case SUB_FRAME_VECTORED_6DOF_90DEG:
@@ -380,12 +380,21 @@ void AP_Motors6DOF::output_armed_stabilizing()
     _output_limited += (_dt_s / (_dt_s + _batt_current_time_constant)) * (1 - batt_current_ratio);
 #endif
 
-    _output_limited = constrain_float(_output_limited, 0.0f, 1.0f);
+_output_limited = constrain_float(_output_limited, 0.0f, 1.0f);
 
-    for (uint8_t i = 0; i < AP_MOTORS_MAX_NUM_MOTORS; i++) {
-        if (motor_enabled[i]) {
-            _thrust_rpyt_out[i] *= _output_limited;
+for (uint8_t i = 0; i < AP_MOTORS_MAX_NUM_MOTORS; i++) {
+    if (motor_enabled[i]) {
+
+        float out = _thrust_rpyt_out[i];
+
+        // reverse boost
+        if (out < 0.0f) {
+            out *= 2.0f;   // rückwärts doppelt
         }
+
+        out *= _output_limited;
+
+        _thrust_rpyt_out[i] = constrain_float(out, -1.0f, 1.0f);
     }
 }
 
