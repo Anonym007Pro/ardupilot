@@ -390,7 +390,7 @@ for (uint8_t i = 0; i < AP_MOTORS_MAX_NUM_MOTORS; i++) {
         // reverse boost
         if (out < 0.0f) {
             out *= 2.0f;   // rückwärts doppelt
-        }
+        }}
 
         out *= _output_limited;
 
