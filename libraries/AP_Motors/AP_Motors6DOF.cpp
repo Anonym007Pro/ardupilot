@@ -133,12 +133,12 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         //                 Motor #              Roll Factor     Pitch Factor    Yaw Factor      Throttle Factor     Forward Factor      Lateral Factor  Testing Order
     case SUB_FRAME_BLUEROV1:
         _frame_class_string = "BLUEROV1";
-        add_motor_raw_6dof(AP_MOTORS_MOT_1,   1.0f,   -1.0f,   1.0f,   1.0f,   1.0f,   0.0f,   1);// 1 = unten links
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,   1.0f,   -1.0f,   1.0f,   0.0f,   1.0f,   0.0f,   1);// 1 = unten links
         add_motor_raw_6dof(AP_MOTORS_MOT_2,  -1.0f,   -1.0f,  -1.0f,   0.0f,   1.0f,   0.0f,   2);// 2 = unten rechts
         add_motor_raw_6dof(AP_MOTORS_MOT_3,   1.0f,    1.0f,  -1.0f,   0.0f,   1.0f,   0.0f,   3);// 3 = oben rechts
         add_motor_raw_6dof(AP_MOTORS_MOT_4,  -1.0f,    1.0f,   1.0f,   0.0f,   1.0f,   0.0f,   4);// 4 = oben links
         add_motor_raw_6dof(AP_MOTORS_MOT_5,   0.0f,    0.0f,   0.0f,   0.0f,   0.0f,  -1.0f,   5);// 5 = seitlich(nach rechts)
-        add_motor_raw_6dof(AP_MOTORS_MOT_6,   0.0f,    0.0f,   0.0f,  -1.0f,   0.0f,   0.0f,   6);// 6 = Runter
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,   0.0f,    0.0f,   0.0f,  -1.0f,   0.0f,   1.0f,   6);// 6 = Runter
         break;
 
     case SUB_FRAME_VECTORED_6DOF_90DEG:
