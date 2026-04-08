@@ -362,6 +362,7 @@ void AP_Motors6DOF::output_armed_stabilizing()
     }
 
     float _batt_current_delta = _batt_current - _batt_current_last;
+    float _batt_current_delta = _batt_current - _batt_current_last;
 
     float _current_change_rate = _batt_current_delta / _dt_s;
 
@@ -390,7 +391,7 @@ for (uint8_t i = 0; i < AP_MOTORS_MAX_NUM_MOTORS; i++) {
         // reverse boost
         if (out < 0.0f) {
             out *= 2.0f;   // rückwärts doppelt
-        }}
+        }
 
         out *= _output_limited;
 
